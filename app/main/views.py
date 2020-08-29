@@ -248,7 +248,7 @@ def download(request):
     return HttpResponseBadRequest()
   
   obj = get_object_or_404(ScrapeRequest, id = request_id)
-  products = obj.products.all()
+  products = obj.products
   headers = Product.CSV_HEADERS if obj.id_type == 'asin' else Product.CSV_HEADERS_JAN
   response = HttpResponse(content_type=f'text/csv; charset={encoding}')
   response['Content-Disposition'] = f'attachment; filename=download_{datetime.datetime.now().timestamp()}_{encoding}.csv'

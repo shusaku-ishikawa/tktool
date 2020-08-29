@@ -721,7 +721,15 @@ class ScrapeRequest(models.Model):
     if self.id_type == ID_ASIN:
       return Product.objects.filter(user = self.user, asin__in = self.id_list)
     elif self.id_type == ID_JAN:
-      return Product.objects.filter(user = self.user, jan__in = self.id_list)
+      product_list = []
+      for id in self.id_list:
+        p = Product.objects.filter(user = self.user, jan = id)
+        if p.count() > 1:
+          p = p.filter(asin__isnull = False)
+          product_list.extend(p)
+        else:
+          product_list.extend(p)
+      return product_list
       
   @property
   def id_count(self):

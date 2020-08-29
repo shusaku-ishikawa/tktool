@@ -58,6 +58,10 @@ class ScrapeRequestViewSet(viewsets.ModelViewSet):
       user = User.objects.get(email = email)
     except User.DoesNotExist:
       return Response(data = {'error': 'user not found'}, status = status.HTTP_400_BAD_REQUEST)
+    
+    if not user.check_password(password):
+      return Response(data = {'error': 'login failed with provided credential.'}, status = status.HTTP_400_BAD_REQUEST)
+    
     if not user.subscribing:
       return Response(data = {'error': 'user not paid'}, status = status.HTTP_400_BAD_REQUEST)
       
