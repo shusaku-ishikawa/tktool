@@ -1,0 +1,4 @@
+myenv
+amazonenv
+*env
+*.env

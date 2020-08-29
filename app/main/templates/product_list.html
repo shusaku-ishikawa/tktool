@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+{% load myfilters %}
+{% block title %}Top{% endblock %}
+
+{% block style %}
+  <style>
+    .fa-check-circle {
+      color: green;
+    }
+    .fa-times-circle {
+      color: red;
+    }
+
+    td {
+      white-space: nowrap;
+    }
+  </style>
+{% endblock %}
+
+{% block pagetitle %}
+  <H6>Product List</H6>
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive card shadow p-2">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        {% for c in object_list.0.csv_column_headers %}
+        <th>{{ c }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for o in object_list %}
+        <tr>
+          {% for val in o.csv_column_values  %}
+          <td>{{ val | default_if_none:'' }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(function() {
+    
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: amazon_scraper
+      MYSQL_DATABASE: amazon_scraper
+      MYSQL_USER: root
+      TZ: 'Asia/Tokyo'
+    ports:
+    - 13306:3306
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+    env_file: django.env
+    volumes:
+    - ./app:/code/app
+    command: bash -c "/wait && python manage.py makemigrations && python manage.py migrate && python manage.py create_admin_user && python manage.py runserver 0.0.0.0:8000"
+    ports:
+    - 8000:8000
+    depends_on:
+    - db
+    links:
+    - db
+    environment:
+    - WAIT_HOSTS=db:3306
+    - WAIT_HOSTS_TIMEOUT=300
+    - WAIT_SLEEP_INTERVAL=5
+    - WAIT_HOST_CONNECT_TIMEOUT=30
+  taskworker:
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+    env_file: django.env
+    volumes:
+    - ./app:/code/app
+    command: bash -c "/wait && sleep 10 && python manage.py process_tasks"
+    links:
+    - db
+    depends_on:
+    - db
+    - app
+    environment:
+    - WAIT_HOSTS=db:3306
+    - WAIT_HOSTS_TIMEOUT=300
+    - WAIT_SLEEP_INTERVAL=5
+    - WAIT_HOST_CONNECT_TIMEOUT=30
+ 
