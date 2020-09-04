@@ -67,8 +67,8 @@ class AppSettingsAdmin(admin.ModelAdmin):
 class ScrapeRequestAdmin(admin.ModelAdmin):
   list_display = [field.name for field in ScrapeRequest._meta.fields if field.name != "id"]
 
-class ProductAdmin(admin.ModelAdmin):
-  list_display = [field.name for field in Product._meta.fields if field.name != "id"]
+class ScrapeResultAdmin(admin.ModelAdmin):
+  list_display = [field.name for field in ScrapeRequestResult._meta.fields if field.name != "id"]
 
 class PaypalSubscriptionAdmin(admin.ModelAdmin):
   list_display = [field.name for field in PaypalSubscription._meta.fields if field.name != "id"]
@@ -80,5 +80,5 @@ admin.site.index_title = 'Menu'
 admin.site.register(User, MyUserAdmin)
 admin.site.register(AppSettings, AppSettingsAdmin)
 admin.site.register(ScrapeRequest, ScrapeRequestAdmin)
-admin.site.register(Product, ProductAdmin)
+admin.site.register(ScrapeRequestResult, ScrapeResultAdmin)
 admin.site.register(PaypalSubscription, PaypalSubscriptionAdmin)

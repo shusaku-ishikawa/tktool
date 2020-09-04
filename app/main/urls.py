@@ -16,7 +16,7 @@ urlpatterns = [
   path('history', views.ListScrapeRequest.as_view(), name="history"),
   path('download', views.download, name="download"),
   path('deleterequest/<int:pk>/', views.delete_request, name='deleterequest'),
-  path('products', views.ListProduct.as_view(), name='products'),
+  path('results', views.ListScrapeRequestResult.as_view(), name='results'),
   path('subscribe', views.subscribe, name = 'subscribe'),
   path('unsubscribe/<str:id>/', views.unsubscribe, name = 'unsubscribe'),
   

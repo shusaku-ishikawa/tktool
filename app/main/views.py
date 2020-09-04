@@ -248,20 +248,21 @@ def download(request):
     return HttpResponseBadRequest()
   
   obj = get_object_or_404(ScrapeRequest, id = request_id)
-  products = obj.products
-  headers = Product.CSV_HEADERS if obj.id_type == 'asin' else Product.CSV_HEADERS_JAN
+  results = obj.results.all()
+  headers = ScrapeRequestResult.CSV_HEADERS if obj.id_type == 'asin' else ScrapeRequestResult.CSV_HEADERS_JAN
   response = HttpResponse(content_type=f'text/csv; charset={encoding}')
   response['Content-Disposition'] = f'attachment; filename=download_{datetime.datetime.now().timestamp()}_{encoding}.csv'
   writer = csv.writer(response)
   writer.writerow(headers)
-  for p in products:
-    elems = p.csv_column_values
+  for r in results:
+    elems = r.csv_column_values
     if obj.id_type == 'jan':
       temp = elems[0]
       elems[0] = elems[1]
       elems[1] = temp
     row = writer.writerow([e.encode(encoding, 'ignore').decode(encoding) if e else '' for e in elems])
   return response
+
 
 @login_required
 def delete_request(request, pk):
@@ -279,9 +280,9 @@ class ListScrapeRequest(LoginRequiredMixin, ListView):
   def get_queryset(self):
     return self.model.objects.filter(user = self.request.user).order_by('-requested_at')
 
-class ListProduct(LoginRequiredMixin, ListView):
-  model = Product
-  template_name = 'product_list.html'
+class ListScrapeRequestResult(LoginRequiredMixin, ListView):
+  model = ScrapeRequestResult
+  template_name = 'scrape_result_list.html'
   paginate_by = 10
   def get_queryset(self):
-    return self.model.objects.filter(user = self.request.user).order_by('-updated_at')
+    return self.model.objects.filter(scrape_request__user = self.request.user).order_by('-id')

@@ -11,7 +11,7 @@ class UserUpdateForm(forms.ModelForm):
   """ユーザー情報更新フォーム"""
   class Meta:
     model = User
-    fields = ('email', 'last_name', 'first_name', 'seller_id', 'mws_auth_token', 'market_place', 'do_get_matching_product_for_id', 'do_get_competitive_pricing_for_asin', 'do_get_lowest_offer_listings_for_asin', 'do_get_my_price_for_asin', 'do_get_product_categories_for_asin', 'asin_jan_one_to_one', 'include_all_in_array')
+    fields = ('email', 'last_name', 'first_name', 'seller_id', 'mws_auth_token', 'market_place', 'do_get_matching_product_for_id', 'do_get_competitive_pricing_for_asin', 'do_get_lowest_offer_listings_for_asin', 'do_get_my_price_for_asin', 'do_get_product_categories_for_asin', 'asin_jan_one_to_one')
 
 class RequestTextForm(forms.ModelForm):
   class Meta:

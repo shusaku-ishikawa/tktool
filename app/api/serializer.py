@@ -1,5 +1,5 @@
 import os
-from main.models import ScrapeRequest, Product
+from main.models import ScrapeRequest, ScrapeRequestResult
 from rest_framework import serializers
 import json
 
@@ -7,10 +7,10 @@ class JSONSerializerField(serializers.Field):
   def to_representation(self, value):
     return json.loads(value)
 
-class ProductSerializer(serializers.ModelSerializer):
+class ScrapeResultSerializer(serializers.ModelSerializer):
   
   class Meta:
-    model = Product
+    model = ScrapeRequestResult
     fields = [
       'asin',
       'jan',
@@ -53,8 +53,8 @@ class ProductSerializer(serializers.ModelSerializer):
     ]
   
 class ScrapeRequestSerializer(serializers.ModelSerializer):
-  products = ProductSerializer(many = True)
+  results = ScrapeResultSerializer(many = True)
 
   class Meta:
     model = ScrapeRequest
-    fields = ['products', 'requested_at', 'status_text', 'error']
+    fields = ['results', 'requested_at', 'status_text', 'error']

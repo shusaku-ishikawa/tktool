@@ -3,7 +3,7 @@
     <a href="{% url 'main:profile' user.pk %}" class="list-group-item list-group-item-action bg-light {% if 'profile' in request.path %}active{% endif %}">登録情報</a>
     <a href="{% url 'main:newrequest' %}" class="list-group-item list-group-item-action bg-light {% if 'newrequest' in request.path %}active{% endif %}">新規リクエスト</a>
     <a href="{% url 'main:history' %}" class="list-group-item list-group-item-action bg-light {% if 'history' in request.path %}active{% endif %}">リクエスト一覧</a>
-    <a href="{% url 'main:products' %}" class="list-group-item list-group-item-action bg-light {% if 'products' in request.path %}active{% endif %}">商品</a>
+    <a href="{% url 'main:results' %}" class="list-group-item list-group-item-action bg-light {% if 'results' in request.path %}active{% endif %}">結果</a>
   </div>
 </div>
 <style>
